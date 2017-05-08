@@ -77,12 +77,8 @@ AddEventHandler('chatMessage', function(source, n, message)
         allowed = true
       else
         if authed then
-          if string.match(authed.flags, 'z') then
+          if string.match(authed.flags, 'z') or string.match(authed.flags, cmd.flag) then
             allowed = true
-          else
-            if string.match(authed.flags, cmd.flag) then
-              allowed = true
-            end
           end
         end
       end
