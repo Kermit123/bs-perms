@@ -69,7 +69,7 @@ AddEventHandler('bs-perms:addCommand',
 )
 
 commands['perms'] = {
-  flag = 'z',
+  flag = 'b',
   callback = function(args, who)
     if args[2] == 'reload' then
       refreshAdmins()

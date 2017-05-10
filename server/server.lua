@@ -105,15 +105,9 @@ function getAuthedAdmin(id)
 end
 
 function mergeFlags(flags1, flags2)
-  if flags1 == '' or flags2 == '' then
-    return flags1 .. flags2
-  end
-  for char in flags2:gmatch('.') do
-    if not string.match(flags1, char) then
-      flags1 = flags1 .. char
-    end
-  end
-  return flags1
+  flags1 = flags1 or ''
+  flags2 = flags2 or ''
+  return flags1 .. flags2
 end
 
 function getAdminIdByTableFromAdminCache(adminToCheck)
