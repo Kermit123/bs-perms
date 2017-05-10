@@ -8,3 +8,4 @@ client_script 'client/client.lua'
 
 export 'playerHasFlag' -- (id, flag) - boolean
 export 'addCommand' -- (table)
+export 'checkIfAllowed' -- (id, flag) - boolean
