@@ -7,5 +7,6 @@ server_script 'server/exports.lua'
 client_script 'client/client.lua'
 
 export 'playerHasFlag' -- (id, flag) - boolean
-export 'addCommand' -- (table)
+export 'addCommand' -- (table {command, callback, flag})
 export 'checkIfAllowed' -- (id, flag) - boolean
+export 'playerCanTargetPlayer' -- (id, id) - boolean
