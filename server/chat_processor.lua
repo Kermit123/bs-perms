@@ -25,7 +25,7 @@ AddEventHandler('chatMessage',
         end
 
         if cmd.callback ~= nil then
-          cmd.callback(args, source)
+          cmd.callback(source, args, getAuthedAdmin(source))
         end
       end
     end
@@ -68,7 +68,9 @@ function checkIfAllowed(id, flag)
 end
 
 RegisterServerEvent('bs-perms:addCommand')
-AddEventHandler('bs-perms:addCommand', addCommand)
+AddEventHandler('bs-perms:addCommand', function(command)
+  addCommand(command)
+end)
 
 function addCommand(command)
   commands[command.command] = command
@@ -77,7 +79,7 @@ end
 addCommand({
   command = 'perms',
   flag = 'b',
-  callback = function(args, who)
+  callback = function(who, args, auth)
     if args[2] == 'reload' then
       refreshAdmins()
     end
