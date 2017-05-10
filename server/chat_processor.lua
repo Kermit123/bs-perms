@@ -35,11 +35,10 @@ AddEventHandler('chatMessage',
               TriggerClientEvent('chatMessage', source, 'BS-PERMS', {255, 0, 0}, 'Not allowed to target them.')
               return
             end
-            cmd.callback(source, args, auth, targetAuth)
-          else
-            cmd.callback(source, args, auth)
+            return cmd.callback(source, args, auth, targetAuth)
           end
         end
+        cmd.callback(source, args, auth)
       end
     end
   end
