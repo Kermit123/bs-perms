@@ -62,20 +62,18 @@ AddEventHandler('chatMessage',
 )
 
 RegisterServerEvent('bs-perms:addCommand')
-AddEventHandler('bs-perms:addCommand',
-  function(command)
-    commands[command.command] = command
-  end
-)
+AddEventHandler('bs-perms:addCommand', addCommand)
 
-commands['perms'] = {
+function addCommand(command)
+  commands[command.command] = command
+end
+
+addCommand({
+  command = 'perms',
   flag = 'b',
   callback = function(args, who)
     if args[2] == 'reload' then
       refreshAdmins()
     end
-    if args[2] == 'test' then
-      print(json.encode(adminCache))
-    end
   end
-}
+})
