@@ -34,7 +34,7 @@ AddEventHandler('chatMessage',
         end
 
         if authed and not string.match(authed.flags, 'z') then
-          for _, override in overrides do
+          for _, override in getOverrides() do
             if override.type == 'full' then
               if override.commandString == command and hasFlags(authed.flags, override.flags) then
                 allowed = override.access

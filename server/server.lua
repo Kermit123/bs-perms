@@ -1,18 +1,20 @@
 local adminCache = {}
-local overrides = {}
+local groupCache = {}
+local overrideCache = {}
 
 local authedAdmins = {}
 
-AddEventHandler('playerConnecting',
-  function(playerName, setKickReason)
+RegisterServerEvent('bs-perms:connected')
+AddEventHandler('bs-perms:connected',
+  function()
     local ip = GetPlayerEP(source)
     local steam = getSteamFromId(source)
 
-    print('connecting source: '..tostring(source))
+    print('connected source: '..tostring(source))
 
     for _, admin in pairs(adminCache) do
       if admin.authString == ip or admin.authString == steam then
-        authedAdmins[source] = admin
+        authedAdmins[source] = getFlatAdmin(admin)
         break
       end
     end
@@ -34,7 +36,7 @@ RegisterServerEvent('bs-perms:gotCache')
 AddEventHandler('bs-perms:gotCache',
   function(cache)
     for _, admin in pairs(cache.admins) do
-      local existingAdmin = getExistingAdminInCache(admin, adminCache)
+      local existingAdmin = getAdminIdByTableFromAdminCache(admin)
       if existingAdmin then
         adminCache[existingAdmin].flags = mergeFlags(adminCache[existingAdmin].flags, admin.flags)
         if admin.immunity > adminCache[existingAdmin].immunity then
@@ -44,8 +46,36 @@ AddEventHandler('bs-perms:gotCache',
         adminCache[#adminCache + 1] = admin
       end
     end
+
+    for _, group in pairs(cache.groups) do
+      local existingGroup = getGroupIdByNameFromGroupCache(group.name, groupCache)
+      if existingGroup then
+        groupCache[existingGroup].flags = mergeFlags(groupCache[existingGroup].flags, admin.flags)
+        groupCache[existingGroup].immunity = highestOfTwo(groupCache[existingGroup].immunity, admin.immunity)
+      else
+        groupCache[#groupCache + 1] = admin
+      end
+    end
   end
 )
+
+function getFlatAdmin(admin)
+  if admin.Group ~= nil then
+      local groupId = getGroupIdByNameFromGroupCache(admin.Group)
+      if groupId then
+        local group = adminCache[groupId]
+        admin.flags = mergeFlags(admin.flags, group.flags)
+        admin.immunity = highestOfTwo(admin.immunity, group.immunity)
+      end
+      return admin
+  else
+    return admin
+  end
+end
+
+function getOverrides()
+  return overrideCache
+end
 
 function getSteamFromId(playerId)
   for _, v in pairs(GetPlayerIdentifiers(playerId)) do
@@ -67,7 +97,8 @@ end
 
 function refreshAdmins()
   adminCache = {}
-  overrides = {}
+  groupCache = {}
+  overrideCache = {}
 
   TriggerEvent('bs-perms:reloadAdminCache')
   TriggerClientEvent('chatMessage', - 1, 'BS-PERMS', {255, 0, 0}, 'Reloading admins.')
@@ -89,9 +120,18 @@ function mergeFlags(flags1, flags2)
   return flags1
 end
 
-function getExistingAdminInCache(adminToCheck, table)
-  for i, admin in ipairs(table) do
+function getAdminIdByTableFromAdminCache(adminToCheck)
+  for i, admin in ipairs(adminCache) do
     if admin.authString == adminToCheck.authString then
+      return i
+    end
+  end
+  return false
+end
+
+function getGroupIdByNameFromGroupCache(name)
+  for i, group in ipairs(groupCache) do
+    if group.name == name then
       return i
     end
   end
