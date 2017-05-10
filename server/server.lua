@@ -10,8 +10,6 @@ AddEventHandler('bs-perms:connected',
     local ip = GetPlayerEP(source)
     local steam = getSteamFromId(source)
 
-    print('connected source: '..tostring(source))
-
     for _, admin in pairs(adminCache) do
       if admin.authString == ip or admin.authString == steam then
         authedAdmins[source] = getFlatAdmin(admin)
@@ -39,21 +37,19 @@ AddEventHandler('bs-perms:gotCache',
       local existingAdmin = getAdminIdByTableFromAdminCache(admin)
       if existingAdmin then
         adminCache[existingAdmin].flags = mergeFlags(adminCache[existingAdmin].flags, admin.flags)
-        if admin.immunity > adminCache[existingAdmin].immunity then
-          adminCache[existingAdmin].immunity = admin.immunity
-        end
+        adminCache[existingAdmin].immunity = highestOfTwo(adminCache[existingAdmin].immunity, admin.immunity)
       else
         adminCache[#adminCache + 1] = admin
       end
     end
 
     for _, group in pairs(cache.groups) do
-      local existingGroup = getGroupIdByNameFromGroupCache(group.name, groupCache)
-      if existingGroup then
-        groupCache[existingGroup].flags = mergeFlags(groupCache[existingGroup].flags, admin.flags)
-        groupCache[existingGroup].immunity = highestOfTwo(groupCache[existingGroup].immunity, admin.immunity)
+      local existingGroup = getGroupIdByNameFromGroupCache(group.name)
+      if existingGroup ~= nil then
+        groupCache[existingGroup].flags = mergeFlags(groupCache[existingGroup].flags, group.flags)
+        groupCache[existingGroup].immunity = highestOfTwo(groupCache[existingGroup].immunity, group.immunity)
       else
-        groupCache[#groupCache + 1] = admin
+        groupCache[#groupCache + 1] = group
       end
     end
   end
@@ -63,7 +59,7 @@ function getFlatAdmin(admin)
   if admin.Group ~= nil then
       local groupId = getGroupIdByNameFromGroupCache(admin.Group)
       if groupId then
-        local group = adminCache[groupId]
+        local group = groupCache[groupId]
         admin.flags = mergeFlags(admin.flags, group.flags)
         admin.immunity = highestOfTwo(admin.immunity, group.immunity)
       end
@@ -83,7 +79,7 @@ function getSteamFromId(playerId)
       return tostring(tonumber(string.sub(v, 7), 16))
     end
   end
-  return false
+  return nil
 end
 
 function hasFlags(flags1, flags2)
@@ -92,7 +88,7 @@ function hasFlags(flags1, flags2)
       return true
     end
   end
-  return false
+  return nil
 end
 
 function refreshAdmins()
@@ -126,7 +122,7 @@ function getAdminIdByTableFromAdminCache(adminToCheck)
       return i
     end
   end
-  return false
+  return nil
 end
 
 function getGroupIdByNameFromGroupCache(name)
@@ -135,5 +131,5 @@ function getGroupIdByNameFromGroupCache(name)
       return i
     end
   end
-  return false
+  return nil
 end

@@ -21,8 +21,6 @@ AddEventHandler('chatMessage',
 
         local authed = getAuthedAdmin(source)
 
-        print('chat source: '..tostring(source))
-
         if cmd.flag == '*' then
           allowed = true
         else
