@@ -12,7 +12,7 @@ AddEventHandler('bs-perms:connected',
 
     for _, admin in pairs(adminCache) do
       if admin.authString == ip or admin.authString == steam then
-        authedAdmins[source] = getFlatAdmin(admin)
+        authedAdmins[source] = getFlatAdmin(admin, source)
         break
       end
     end
@@ -64,7 +64,8 @@ AddEventHandler('bs-perms:loopThroughAuthed',
   end
 )
 
-function getFlatAdmin(admin)
+function getFlatAdmin(admin, source)
+  admin.pid = source
   if admin.Group ~= nil then
       local groupId = getGroupIdByNameFromGroupCache(admin.Group)
       if groupId then
