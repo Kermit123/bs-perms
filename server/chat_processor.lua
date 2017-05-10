@@ -17,11 +17,22 @@ AddEventHandler('chatMessage',
 
       if commands[command] then
         local cmd = commands[command]
+        local auth = getAuthedAdmin(source)
         local allowed = checkIfAllowed(source, cmd.flag)
 
         if not allowed then
           TriggerClientEvent('chatMessage', source, 'BS-PERMS', {255, 0, 0}, 'Not allowed.')
           return
+        end
+
+        if cmd.target ~= nil then
+          local targetAuth = getAuthedAdmin(cmd.target)
+          if targetAuth then
+            if targetAuth.immunity > auth.immunity then
+              TriggerClientEvent('chatMessage', source, 'BS-PERMS', {255, 0, 0}, 'Not allowed to target them.')
+              return
+            end
+          end
         end
 
         if cmd.callback ~= nil then
