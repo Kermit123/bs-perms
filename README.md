@@ -39,6 +39,7 @@ and/or
 ### Flags
 These flags are either already used by bs-perms plugins or will be soon.
 
+\* - Everyone  
 A - Reserved Slot  
 B - Generic Admin  
 C - Kick  
@@ -52,7 +53,7 @@ J - Start Votes
 K - Set a password  
 L - RCON  
 M - No Clip  
-
+N - Spawn Vehicles  
 Z - ALL FLAGS
 
 ### Immunity (copy/pasted from sourcemod docs)
