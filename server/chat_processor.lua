@@ -18,6 +18,12 @@ AddEventHandler('chatMessage',
       if commands[command] then
         local cmd = commands[command]
         local auth = getAuthedAdmin(source)
+
+        if cmd.pre ~= nil then
+          cmd.pre(source, auth, args, cmd)
+          return
+        end
+
         local allowed = checkIfAllowed(source, cmd.flag)
 
         if not allowed then
