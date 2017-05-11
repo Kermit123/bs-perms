@@ -36,6 +36,34 @@ and/or
   end)
 ```
 
+### Flags
+These flags are either already used by bs-perms plugins or will be soon.
+
+A - Reserved Slot  
+B - Generic Admin  
+C - Kick  
+D - Ban  
+E - Unban  
+F - Slay  
+G - Change Map  
+H - Change Gametype  
+I - Chat Perms  
+J - Start Votes  
+K - Set a password  
+L - RCON  
+M - No Clip  
+
+Z - ALL FLAGS
+
+### Immunity (copy/pasted from sourcemod docs)
+Immunity is a flexible system based on immunity levels. Every admin can have an arbitrary immunity value assigned to them. Whether an admin can target another admin depends on who has a higher immunity value.
+
+For example, say Admin #1 has an immunity level of "3" and Admin #2 has an immunity level of "10." Admin #2 can target Admin #1, but Admin #1 cannot target Admin #2. The numbers are completely arbitrary, and they can be any number equal to or higher than 0. Note that 0 always implies no immunity.
+
+Admins with the same immunity value can target each other.
+
+Admins with the z flag are not subject to immunity checks. This means they can always target anyone.
+
 ### Related Gits
 [bs-admin](https://github.com/busheezy/bs-admin)   
 [bs-perms-json](https://github.com/busheezy/bs-perms-json)  
