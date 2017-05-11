@@ -29,13 +29,20 @@ AddEventHandler('chatMessage',
           if cmd.target == true then
             cmd.target = 2
           end
-          local targetAuth = getAuthedAdmin(tonumber(args[cmd.target]))
+          local targetId = tonumber(args[cmd.target])
+          local targetPlayerName = GetPlayerName(targetId)
+          if not targetPlayerName then
+            TriggerClientEvent('chatMessage', source, 'BS-PERMS', {255, 0, 0}, 'Player doesn\'t exist.')
+            return
+          end
+          local targetAuth = getAuthedAdmin(targetId)
           if targetAuth then
             if targetAuth.immunity > auth.immunity then
               TriggerClientEvent('chatMessage', source, 'BS-PERMS', {255, 0, 0}, 'Not allowed to target them.')
               return
             end
-            return cmd.callback(source, args, auth, targetAuth)
+            cmd.callback(source, args, auth, targetAuth)
+            return
           end
         end
         cmd.callback(source, args, auth)
