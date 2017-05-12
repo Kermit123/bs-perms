@@ -18,6 +18,7 @@ and/or
 ## Developers  
 
 ### API
+
 - Get API
 ```Lua
   local API
@@ -41,7 +42,6 @@ and/or
     end
   })
 ```
-
 ```Lua
   addCommand({
     command = 'example',
@@ -51,7 +51,6 @@ and/or
     end
   })
 ```
-
 ```Lua
   addCommand({
     command = 'example',
