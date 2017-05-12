@@ -21,36 +21,36 @@ and/or
 - Creating commands
 ```Lua
   TriggerEvent('bs-perms:addCommand', {
-  	command = 'example',
-  	flag = 'b',
-  	target = true,
-  	callback = function(who, args, auth, targetAuth)
-  		-- targetAuth is an auth table
+    command = 'example',
+    flag = 'b',
+    target = true,
+    callback = function(who, args, auth, targetAuth)
+      -- targetAuth is an auth table
       -- targetAuth.pid = player's id
-  	end
+    end
   })
 ```
 ```Lua
   TriggerEvent('bs-perms:addCommand', {
-  	command = 'example',
-  	flag = 'b',
-  	callback = function(who, args, auth)
-  		...
-  	end
+    command = 'example',
+    flag = 'b',
+    callback = function(who, args, auth)
+      ...
+    end
   })
 ```
 ```Lua
   TriggerEvent('bs-perms:addCommand', {
-  	command = 'example',
-  	flag = 'b',
-  	pre = function(source, auth, args, cmd, next)
-  		-- do some our own pre command checks
-      -- this overrides targeting checks
+    command = 'example',
+    flag = 'b',
+    pre = function(source, auth, args, cmd, next)
+    -- do some our own pre command checks
+    -- this overrides targeting checks
       next()
-  	end,
-  	callback = function(who, args, auth)
-  		...
-  	end
+    end,
+    callback = function(who, args, auth)
+      ...
+    end
   })
 ```
 - Loop Through Authed
