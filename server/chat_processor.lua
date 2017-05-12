@@ -86,7 +86,6 @@ function checkIfAllowed(id, cmd)
   end
 
   local overridden = checkIfOverriden(authed, cmd)
-
   if overridden ~= nil then
     return overridden
   end
@@ -99,18 +98,16 @@ function checkIfAllowed(id, cmd)
 end
 
 function checkIfOverriden(authed, cmd)
-  for _, override in getOverrides() do
+  for _, override in pairs(getOverrides()) do
+    if override.flag == nil or override.flag == '*' then
+      return true
+    end
+
     if override.type == 'full' and override.commandString == cmd.command then
-      if override.flag == nil or override.flag == '*' then
-        return true
-      end
       return authed and hasFlags(authed.flags, override.flag)
     end
 
     if override.type == 'prefix' and startswith(cmd.command, override.commandString) then
-      if override.flag == nil or override.flag == '*' then
-        return true
-      end
       return authed and hasFlags(authed.flags, override.flag)
     end
   end

@@ -52,6 +52,10 @@ AddEventHandler('bs-perms:gotCache',
         groupCache[#groupCache + 1] = group
       end
     end
+
+    for _, override in pairs(cache.overrides) do
+      overrideCache[#overrideCache + 1] = override
+    end
   end
 )
 
