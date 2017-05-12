@@ -92,13 +92,8 @@ function getSteamFromId(playerId)
   return nil
 end
 
-function hasFlags(flags1, flags2)
-  for char in flags2:gmatch('.') do
-    if string.match(flags1, char) then
-      return true
-    end
-  end
-  return nil
+function hasFlags(flags, flag)
+  return string.match(flags, flag)
 end
 
 function refreshAdmins()

@@ -24,7 +24,7 @@ AddEventHandler('chatMessage',
           return
         end
 
-        local allowed = checkIfAllowed(source, cmd.flag)
+        local allowed = checkIfAllowed(source, cmd)
 
         if not allowed then
           TriggerClientEvent('chatMessage', source, 'BS-PERMS', {255, 0, 0}, 'Not allowed.')
@@ -57,39 +57,45 @@ AddEventHandler('chatMessage',
   end
 )
 
-function checkIfAllowed(id, flag)
-  local allowed = false
+function checkIfAllowed(id, cmd)
+  local overridden = false
 
   local authed = getAuthedAdmin(id)
 
-  if flag == '*' then
-    allowed = true
-  else
-    if authed then
-      if string.match(authed.flags, 'z') or string.match(authed.flags, flag) then
-        allowed = true
-      end
-    end
+  if authed and hasFlags(authed.flags, 'z') then
+    return true
   end
 
-  if authed and not string.match(authed.flags, 'z') then
-    for _, override in getOverrides() do
-      if override.type == 'full' then
-        if override.commandString == command and hasFlags(authed.flags, override.flags) then
-          allowed = override.access
-          break
-        end
-      end
-      if override.type == 'prefix' then
-        if startswith(command, override.commandString) and hasFlags(authed.flags, override.flags) then
-          allowed = override.access
-          break
-        end
-      end
-    end
+  local overridden = checkIfOverriden(authed, cmd)
+
+  if overridden ~= nil then
+    return overridden
   end
 
-  return allowed
+  if cmd.flag == nil or cmd.flag == '*' then
+    return true
+  end
+
+  return authed and hasFlags(authed.flags, override.flag)
+end
+
+function checkIfOverriden(authed, cmd)
+  for _, override in getOverrides() do
+    if override.type == 'full' and override.commandString == cmd.command then
+      if override.flag == nil or override.flag == '*' then
+        return true
+      end
+      return authed and hasFlags(authed.flags, override.flag)
+    end
+
+    if override.type == 'prefix' and startswith(cmd.command, override.commandString) then
+      if override.flag == nil or override.flag == '*' then
+        return true
+      end
+      return authed and hasFlags(authed.flags, override.flag)
+    end
+  end
+  return nil
 end
 
 RegisterServerEvent('bs-perms:addCommand')
