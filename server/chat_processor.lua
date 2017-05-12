@@ -46,24 +46,17 @@ AddEventHandler('chatMessage',
 
           local targetAuth = getAuthedAdmin(targetId)
 
-          if auth and hasFlags(auth.flags, 'z') then
+          if auth and not hasFlags(auth.flags, 'z') then
             cmd.callback(source, args, auth, targetAuth)
             return
           end
 
-          if not auth and targetAuth then
-            targetAuth.immunity = targetAuth.immunity or 0
-            if targetAuth.immunity > 0 then
-              TriggerClientEvent('chatMessage', source, 'BS-PERMS', {255, 0, 0}, 'Not allowed to target them.')
-              return
-            end
-          end
+          local whoImmunity = auth.immunity or 0
+          local targetImmunity = targetAuth.immunity or 0
 
-          if targetAuth and auth then
-            if targetAuth.immunity > auth.immunity then
-              TriggerClientEvent('chatMessage', source, 'BS-PERMS', {255, 0, 0}, 'Not allowed to target them.')
-              return
-            end
+          if targetImmunity > whoImmunity then
+            TriggerClientEvent('chatMessage', source, 'BS-PERMS', {255, 0, 0}, 'Not allowed to target them.')
+            return
           end
 
           cmd.callback(source, args, auth, targetAuth)
