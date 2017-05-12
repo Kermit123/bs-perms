@@ -117,7 +117,7 @@ end
 function mergeFlags(flags1, flags2)
   flags1 = flags1 or ''
   flags2 = flags2 or ''
-  return flags1 .. flags2
+  return flags1:lower() .. flags2:lower()
 end
 
 function getAdminIdByTableFromAdminCache(adminToCheck)
