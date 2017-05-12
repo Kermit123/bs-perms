@@ -31,7 +31,7 @@ and/or
 
 - Creating commands
 ```Lua
-  addCommand{
+  addCommand({
     command = 'example',
     flag = 'b',
     target = true,
@@ -42,7 +42,7 @@ and/or
   })
 ```
 ```Lua
-  addCommand{
+  addCommand({
     command = 'example',
     flag = 'b',
     callback = function(who, args, auth)
@@ -51,7 +51,7 @@ and/or
   })
 ```
 ```Lua
-  addCommand{
+  addCommand({
     command = 'example',
     flag = 'b',
     pre = function(source, auth, args, cmd, next)
