@@ -95,7 +95,7 @@ function checkIfAllowed(id, cmd)
     return true
   end
 
-  return authed and hasFlags(authed.flags, override.flag)
+  return authed and hasFlags(authed.flags, cmd.flag)
 end
 
 function checkIfOverriden(authed, cmd)
