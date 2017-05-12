@@ -51,8 +51,16 @@ AddEventHandler('chatMessage',
             return
           end
 
-          local whoImmunity = auth.immunity or 0
-          local targetImmunity = targetAuth.immunity or 0
+          local whoImmunity = 0
+          local targetImmunity = 0
+
+          if auth then
+            whoImmunity = auth.immunity or 0
+          end
+
+          if targetAuth then
+            targetImmunity = targetAuth.immunity or 0
+          end
 
           if targetImmunity > whoImmunity then
             TriggerClientEvent('chatMessage', source, 'BS-PERMS', {255, 0, 0}, 'Not allowed to target them.')
