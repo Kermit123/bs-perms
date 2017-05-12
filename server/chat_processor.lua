@@ -1,5 +1,3 @@
-local commands = {}
-
 AddEventHandler('chatMessage',
   function(source, n, message)
     if startsWith(message, '/') or startsWith(message, '!') then
@@ -14,6 +12,8 @@ AddEventHandler('chatMessage',
       if startsWith(message, '!') then
         command = string.gsub(command, '!', '')
       end
+
+      local commands = getCommands()
 
       if commands[command] then
         local cmd = commands[command]
@@ -119,22 +119,3 @@ function checkIfOverriden(authed, cmd)
   end
   return nil
 end
-
-RegisterServerEvent('bs-perms:addCommand')
-AddEventHandler('bs-perms:addCommand', function(command)
-  addCommand(command)
-end)
-
-function addCommand(command)
-  commands[command.command] = command
-end
-
-addCommand({
-  command = 'perms',
-  flag = 'b',
-  callback = function(who, args, auth)
-    if args[2] == 'reload' then
-      refreshAdmins()
-    end
-  end
-})

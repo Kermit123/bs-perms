@@ -18,9 +18,20 @@ and/or
 ## Developers  
 
 ### Triggers
+- Get API
+```Lua
+  local API
+  TriggerEvent('bs-perms:getAPI',
+    function(api)
+      API = api
+    end
+  )
+  local addCommand = API.addCommand
+```
+
 - Creating commands
 ```Lua
-  TriggerEvent('bs-perms:addCommand', {
+  addCommand{
     command = 'example',
     flag = 'b',
     target = true,
@@ -31,7 +42,7 @@ and/or
   })
 ```
 ```Lua
-  TriggerEvent('bs-perms:addCommand', {
+  addCommand{
     command = 'example',
     flag = 'b',
     callback = function(who, args, auth)
@@ -40,7 +51,7 @@ and/or
   })
 ```
 ```Lua
-  TriggerEvent('bs-perms:addCommand', {
+  addCommand{
     command = 'example',
     flag = 'b',
     pre = function(source, auth, args, cmd, next)
@@ -52,23 +63,6 @@ and/or
       ...
     end
   })
-```
-- Loop Through Authed
-```Lua
-  TriggerEvent('bs-perms:loopThroughAuthed',
-    function(authed)
-      print(authed.authString .. ' : ' .. authed.flags)
-    end
-  )
-```
-- Get Utils
-```Lua
-  TriggerEvent('bs-perms:getUtils',
-    function(utils)
-      -- table of utilites here
-      local admin = utils.getAuthedAdmin(pid)
-    end
-  )
 ```
 
 ### User's Auth table

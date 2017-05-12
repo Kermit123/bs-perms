@@ -1,7 +1,7 @@
 local adminCache = {}
 local groupCache = {}
 local overrideCache = {}
-
+local commands = {}
 local authedAdmins = {}
 
 RegisterServerEvent('bs-perms:connected')
@@ -65,23 +65,14 @@ AddEventHandler('bs-perms:gotCache',
   end
 )
 
-RegisterServerEvent('bs-perms:loopThroughAuthed')
-AddEventHandler('bs-perms:loopThroughAuthed',
+RegisterServerEvent('bs-perms:getAPI')
+AddEventHandler('bs-perms:getAPI',
   function(cb)
-    for _, admin in pairs(authedAdmins) do
-      cb(admin)
-    end
+    cb(getAPI())
   end
 )
 
-RegisterServerEvent('bs-perms:getUtils')
-AddEventHandler('bs-perms:getUtils',
-  function(cb)
-    cb(gatherUtils)
-  end
-)
-
-function gatherUtils()
+function getAPI()
   return {
     getAdmins = getAdmins,
     getGroups = getGroups,
@@ -91,7 +82,8 @@ function gatherUtils()
     getAuthedAdmin = getAuthedAdmin,
     playerHasFlag = playerHasFlag,
     playerCanTargetPlayer = playerCanTargetPlayer,
-    loopThroughAuthed = loopThroughAuthed
+    loopThroughAuthed = loopThroughAuthed,
+    addCommand = addCommand
   }
 end
 
@@ -164,6 +156,10 @@ function mergeFlags(flags1, flags2)
   return flags1 .. flags2
 end
 
+function getCommands()
+  return commands
+end
+
 function getAdminIdByTableFromAdminCache(adminToCheck)
   for i, admin in ipairs(adminCache) do
     if admin.authString == adminToCheck.authString then
@@ -215,3 +211,17 @@ function playerCanTargetPlayer(id, targetId)
 
   return false
 end
+
+function addCommand(command)
+  commands[command.command] = command
+end
+
+addCommand({
+  command = 'perms',
+  flag = 'b',
+  callback = function(who, args, auth)
+    if args[2] == 'reload' then
+      refreshAdmins()
+    end
+  end
+})
