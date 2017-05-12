@@ -20,7 +20,13 @@ AddEventHandler('chatMessage',
         local auth = getAuthedAdmin(source)
 
         if cmd.pre ~= nil then
-          cmd.pre(source, auth, args, cmd)
+          function getCallback()
+            function ready()
+              cmd.callback(source, args, auth)
+            end
+            return ready
+          end
+          cmd.pre(source, auth, args, cmd, getCallback())
           return
         end
 
@@ -46,7 +52,7 @@ AddEventHandler('chatMessage',
 
           local targetAuth = getAuthedAdmin(targetId)
 
-          if auth and not hasFlags(auth.flags, 'z') then
+          if auth and not hasFlag(auth.flags, 'z') then
             cmd.callback(source, args, auth, targetAuth)
             return
           end
@@ -81,7 +87,7 @@ function checkIfAllowed(id, cmd)
 
   local authed = getAuthedAdmin(id)
 
-  if authed and hasFlags(authed.flags, 'z') then
+  if authed and hasFlag(authed.flags, 'z') then
     return true
   end
 
@@ -94,7 +100,7 @@ function checkIfAllowed(id, cmd)
     return true
   end
 
-  return authed and hasFlags(authed.flags, cmd.flag)
+  return authed and hasFlag(authed.flags, cmd.flag)
 end
 
 function checkIfOverriden(authed, cmd)
@@ -104,11 +110,11 @@ function checkIfOverriden(authed, cmd)
     end
 
     if override.type == 'full' and override.commandString == cmd.command then
-      return authed and hasFlags(authed.flags, override.flag)
+      return authed and hasFlag(authed.flags, override.flag)
     end
 
     if override.type == 'prefix' and startswith(cmd.command, override.commandString) then
-      return authed and hasFlags(authed.flags, override.flag)
+      return authed and hasFlag(authed.flags, override.flag)
     end
   end
   return nil

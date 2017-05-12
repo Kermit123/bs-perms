@@ -17,8 +17,19 @@ and/or
 
 ## Developers  
 
-### API Examples
+### Triggers
 - Creating commands
+```Lua
+  TriggerEvent('bs-perms:addCommand', {
+  	command = 'example',
+  	flag = 'b',
+  	target = true,
+  	callback = function(who, args, auth, targetAuth)
+  		-- targetAuth is an auth table
+      -- targetAuth.pid = player's id
+  	end
+  })
+```
 ```Lua
   TriggerEvent('bs-perms:addCommand', {
   	command = 'example',
@@ -28,13 +39,68 @@ and/or
   	end
   })
 ```
-- Loop through authed users
+```Lua
+  TriggerEvent('bs-perms:addCommand', {
+  	command = 'example',
+  	flag = 'b',
+  	pre = function(source, auth, args, cmd, next)
+  		-- do some our own pre command checks
+      -- this overrides targeting checks
+      next()
+  	end,
+  	callback = function(who, args, auth)
+  		...
+  	end
+  })
+```
+- Loop Through Authed
 ```Lua
   TriggerEvent('bs-perms:loopThroughAuthed',
-  function(authed)
-    print(authed.authString .. ' : ' .. authed.flags)
-  end)
+    function(authed)
+      print(authed.authString .. ' : ' .. authed.flags)
+    end
+  )
 ```
+- Get Utils
+```Lua
+  TriggerEvent('bs-perms:getUtils',
+    function(utils)
+      -- table of utilites here
+      local admin = utils.getAuthedAdmin(pid)
+    end
+  )
+```
+
+### User's Auth table
+```Lua
+  {
+    pid = 1,
+    alias = 'Bush',
+    flags = 'abc',
+    immunity = 10,
+    Group = 'general'
+  }
+```
+
+### Utilities
+- getAdmins()  
+returns a list of the cached admins
+- getGroups()  
+returns a list of the cached groups
+- getOverrides()  
+returns a list of the cached overrides
+- getSteamFromId(Player ID)
+returns a 64 bit steam id
+- hasFlag(flags, flag)  
+returns a boolean
+- getAuthedAdmin(Player ID)  
+returns a player auth table
+- playerHasFlag(Player ID, flag)  
+returns a boolean
+- playerCanTargetPlayer(Player ID, Player ID)
+returns a boolean
+- loopThroughAuthed(callback<player auth>)  
+returns nothing but the callback will be called for every player
 
 ### Flags
 These flags are either already used by bs-perms plugins or will be soon.

@@ -19,6 +19,12 @@ AddEventHandler('bs-perms:connected',
   end
 )
 
+AddEventHandler('playerDropped',
+  function()
+    authedAdmins[source] = nil
+  end
+)
+
 AddEventHandler('onResourceStart',
   function(resource)
     if resource == 'bs-perms' then
@@ -68,6 +74,27 @@ AddEventHandler('bs-perms:loopThroughAuthed',
   end
 )
 
+RegisterServerEvent('bs-perms:getUtils')
+AddEventHandler('bs-perms:getUtils',
+  function(cb)
+    cb(gatherUtils)
+  end
+)
+
+function gatherUtils()
+  return {
+    getAdmins = getAdmins,
+    getGroups = getGroups,
+    getOverrides = getOverrides,
+    getSteamFromId = getSteamFromId,
+    hasFlag = hasFlag,
+    getAuthedAdmin = getAuthedAdmin,
+    playerHasFlag = playerHasFlag,
+    playerCanTargetPlayer = playerCanTargetPlayer,
+    loopThroughAuthed = loopThroughAuthed
+  }
+end
+
 function getFlatAdmin(admin, source)
   admin.pid = source
   if admin.Group ~= nil then
@@ -83,8 +110,26 @@ function getFlatAdmin(admin, source)
   end
 end
 
+function loopThroughAuthed(cb)
+  for _, admin in pairs(authedAdmins) do
+    cb(admin)
+  end
+end
+
+function getAdmins()
+  return overrideCache
+end
+
+function getGroups()
+  return overrideCache
+end
+
 function getOverrides()
   return overrideCache
+end
+
+function getAuthedAdmins()
+  return authedAdmins
 end
 
 function getSteamFromId(playerId)
@@ -96,7 +141,7 @@ function getSteamFromId(playerId)
   return nil
 end
 
-function hasFlags(flags, flag)
+function hasFlag(flags, flag)
   return string.match(flags, flag)
 end
 
@@ -142,7 +187,7 @@ function playerHasFlag(id, flag)
   if not authed then
     return false
   end
-  if hasFlags(authed.flags, flag) then
+  if hasFlag(authed.flags, flag) then
     return true
   end
   return false
