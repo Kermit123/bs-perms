@@ -17,7 +17,7 @@ and/or
 
 ## Developers  
 
-### Triggers
+### API
 - Get API
 ```Lua
   local API
@@ -41,6 +41,7 @@ and/or
     end
   })
 ```
+
 ```Lua
   addCommand({
     command = 'example',
@@ -50,6 +51,7 @@ and/or
     end
   })
 ```
+
 ```Lua
   addCommand({
     command = 'example',
