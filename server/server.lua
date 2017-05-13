@@ -265,7 +265,7 @@ addCommand({
       end
       TriggerClientEvent('chatMessage', - 1, 'BS-PERMS', {255, 0, 0}, 'no flags')
     else
-      if args[2] == 'reload' and authed and hasFlag(authed.flags, 'z') then
+      if args[2] == 'reload' and auth and hasFlag(auth.flags, 'z') then
         refreshAdmins()
       end
     end
