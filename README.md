@@ -64,7 +64,7 @@ adds commands to chat processor
 ```
 
 ### getAdmins()
-returns a list of the cached admins
+returns a list of the cached admins  
 Example:  
 ```Lua
   local admins = API.getAdmins()
