@@ -17,9 +17,9 @@ and/or
 
 ## Developers  
 
-### API
+### API  
 
-- Get API
+** addCommand(command table)** - adds commands to chat processor
 ```Lua
   local API
   TriggerEvent('bs-perms:getAPI',
@@ -29,10 +29,8 @@ and/or
   )
   local addCommand = API.addCommand
 ```
-
-- Creating commands
 ```Lua
-  addCommand({
+  API.addCommand({
     command = 'example',
     flag = 'b',
     target = true,
@@ -43,7 +41,7 @@ and/or
   })
 ```
 ```Lua
-  addCommand({
+  API.addCommand({
     command = 'example',
     flag = 'b',
     callback = function(who, args, auth)
@@ -52,7 +50,7 @@ and/or
   })
 ```
 ```Lua
-  addCommand({
+  API.addCommand({
     command = 'example',
     flag = 'b',
     pre = function(source, auth, args, cmd, next)
@@ -66,6 +64,110 @@ and/or
   })
 ```
 
+**getAdmins()** - returns a list of the cached admins
+Example:  
+```Lua
+  local admins = API.getAdmins()
+  print('There are '..#admins..' entries in the admin cache.')
+```
+Example Output:  
+``There are 10 entries in the admin cache.``
+
+
+**getGroups()** - returns a list of the cached groups  
+Example:  
+```Lua
+  local groups = API.getGroups()
+  print('There are '..#groups..' entries in the group cache.')
+```
+Example Output:  
+``There are 10 entries in the groups cache.``
+
+
+**getOverrides()** - returns a list of the cached overrides  
+Example:  
+```Lua
+  local overrides = API.getOverrides()
+  print('There are '..#overrides..' entries in the overrides cache.')
+```
+Example Output:  
+``There are 10 entries in the overrides cache.``
+
+
+**getSteamFromId(Player ID)** - returns a 64 bit steam id  
+Example:
+```Lua
+  local steam = API.getSteamFromId(1)
+  print(steam)
+```
+Example Output:  
+``76561197972581267``
+
+
+**hasFlag(flags, flag)** - returns a boolean  
+Example:
+```Lua
+  local has = API.hasFlag('abc', 'b')
+  print(has)
+```
+Example Output:  
+``true``
+
+
+Example:
+```Lua
+  local has = API.hasFlag('abc', 'z')
+  print(has)
+```
+Example Output:  
+``false``
+
+
+**getAuthedAdmin(Player ID)** - returns a player auth table  
+Example:
+```Lua
+  local auth = API.getAuthedAdmin(1)
+  -- auth is a user table
+  print(auth.pid)
+```
+Example Output:  
+``1``
+
+
+**playerHasFlag(Player ID, flag)** - returns a boolean  
+Example:
+```Lua
+  local has = API.playerHasFlag(1, 'b')
+  print(has)
+```
+Example Output:  
+``true``
+
+
+**playerCanTargetPlayer(Player ID, Player ID)** - returns a boolean  
+Example:
+```Lua
+  local can = API.playerCanTargetPlayer(1, 2)
+  print(can)
+```
+Example Output:  
+``true``
+
+
+**loopThroughAuthed(callback<player auth>)** - returns nothing but the callback will be called for every player  
+Example:
+```Lua
+  local can = API.loopThroughAuthed(
+    function(auth){
+      print(auth.pid)
+    }
+  )
+```
+Example Output:  
+``1``  
+``2``  
+``3``
+
 ### User's Auth table
 ```Lua
   {
@@ -76,26 +178,6 @@ and/or
     Group = 'general'
   }
 ```
-
-### Utilities
-- getAdmins()  
-returns a list of the cached admins
-- getGroups()  
-returns a list of the cached groups
-- getOverrides()  
-returns a list of the cached overrides
-- getSteamFromId(Player ID)
-returns a 64 bit steam id
-- hasFlag(flags, flag)  
-returns a boolean
-- getAuthedAdmin(Player ID)  
-returns a player auth table
-- playerHasFlag(Player ID, flag)  
-returns a boolean
-- playerCanTargetPlayer(Player ID, Player ID)
-returns a boolean
-- loopThroughAuthed(callback<player auth>)  
-returns nothing but the callback will be called for every player
 
 ### Flags
 These flags are either already used by bs-perms plugins or will be soon.
