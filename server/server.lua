@@ -256,22 +256,18 @@ end
 
 addCommand({
   command = 'perms',
-  flag = 'z',
-  callback = function(who, args, auth)
-    if args[2] == 'reload' then
-      refreshAdmins()
-    end
-  end
-})
-
-addCommand({
-  command = 'flags',
   flag = '*',
   callback = function(who, args, auth)
-    if auth then
-      TriggerClientEvent('chatMessage', - 1, 'BS-PERMS', {255, 0, 0}, auth.flags)
-    else
+    if args[2] == nil then
+      if auth then
+        TriggerClientEvent('chatMessage', - 1, 'BS-PERMS', {255, 0, 0}, 'Flags: '..auth.flags)
+        return
+      end
       TriggerClientEvent('chatMessage', - 1, 'BS-PERMS', {255, 0, 0}, 'no flags')
+    else
+      if args[2] == 'reload' and authed and hasFlag(authed.flags, 'z') then
+        refreshAdmins()
+      end
     end
   end
 })
@@ -280,6 +276,8 @@ addCommand({
   command = 'login',
   flag = '*',
   callback = function(who, args, auth)
+    authedAdmins[who] = nil
+
     local username = args[2]
     local password = args[3]
 
@@ -288,6 +286,12 @@ addCommand({
         authedAdmins[who] = getFlatAdmin(admin, who)
         break
       end
+    end
+
+    if authedAdmins[who] then
+      TriggerClientEvent('chatMessage', - 1, 'BS-PERMS', {255, 0, 0}, 'Logged in.')
+    else
+      TriggerClientEvent('chatMessage', - 1, 'BS-PERMS', {255, 0, 0}, 'Login failed.')
     end
   end
 })

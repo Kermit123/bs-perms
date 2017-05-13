@@ -49,18 +49,20 @@ adds commands to chat processor
   })
 ```
 ```Lua
-  API.addCommand({
-    command = 'example',
-    flag = 'b',
-    pre = function(source, auth, args, cmd, next)
-    -- do some our own pre command checks
-    -- this overrides targeting checks
-      next()
-    end,
-    callback = function(who, args, auth)
-      ...
-    end
-  })
+API.addCommand({
+  command = 'test',
+  flag = '*',
+  pre = function(source, auth, args, cmd, next)
+    -- do checks
+    -- pass variables to our command
+    next({
+      the = "test"
+    })
+  end,
+  callback = function(who, args, auth, pass)
+    print(pass.the)
+  end
+})
 ```
 
 ### getAdmins()
