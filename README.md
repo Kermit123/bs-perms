@@ -15,11 +15,10 @@ and/or
  - add to ``<server>/citmp-server.yml``
  - install bs-perms-api or bs-perms-json
 
-## Developers  
+## API  
 
-### API  
-
-**addCommand(command table)** - adds commands to chat processor
+### addCommand(command table)
+adds commands to chat processor
 ```Lua
   local API
   TriggerEvent('bs-perms:getAPI',
@@ -64,7 +63,8 @@ and/or
   })
 ```
 
-**getAdmins()** - returns a list of the cached admins
+### getAdmins()
+returns a list of the cached admins
 Example:  
 ```Lua
   local admins = API.getAdmins()
@@ -74,7 +74,8 @@ Example Output:
 ``There are 10 entries in the admin cache.``
 
 
-**getGroups()** - returns a list of the cached groups  
+### getGroups()
+returns a list of the cached groups  
 Example:  
 ```Lua
   local groups = API.getGroups()
@@ -84,7 +85,8 @@ Example Output:
 ``There are 10 entries in the groups cache.``
 
 
-**getOverrides()** - returns a list of the cached overrides  
+### getOverrides()
+returns a list of the cached overrides  
 Example:  
 ```Lua
   local overrides = API.getOverrides()
@@ -94,7 +96,8 @@ Example Output:
 ``There are 10 entries in the overrides cache.``
 
 
-**getSteamFromId(Player ID)** - returns a 64 bit steam id  
+### getSteamFromId(Player ID)
+returns a 64 bit steam id  
 Example:
 ```Lua
   local steam = API.getSteamFromId(1)
@@ -104,7 +107,8 @@ Example Output:
 ``76561197972581267``
 
 
-**hasFlag(flags, flag)** - returns a boolean  
+### hasFlag(flags, flag)
+returns a boolean  
 Example:
 ```Lua
   local has = API.hasFlag('abc', 'b')
@@ -123,7 +127,8 @@ Example Output:
 ``false``
 
 
-**getAuthedAdmin(Player ID)** - returns a player auth table  
+### getAuthedAdmin(Player ID)
+returns a player auth table  
 Example:
 ```Lua
   local auth = API.getAuthedAdmin(1)
@@ -134,7 +139,8 @@ Example Output:
 ``1``
 
 
-**playerHasFlag(Player ID, flag)** - returns a boolean  
+### playerHasFlag(Player ID, flag)
+returns a boolean  
 Example:
 ```Lua
   local has = API.playerHasFlag(1, 'b')
@@ -144,7 +150,8 @@ Example Output:
 ``true``
 
 
-**playerCanTargetPlayer(Player ID, Player ID)** - returns a boolean  
+### playerCanTargetPlayer(Player ID, Player ID)
+returns a boolean  
 Example:
 ```Lua
   local can = API.playerCanTargetPlayer(1, 2)
@@ -154,7 +161,8 @@ Example Output:
 ``true``
 
 
-**loopThroughAuthed(callback<player auth>)** - returns nothing but the callback will be called for every player  
+### loopThroughAuthed(callback<player auth>)
+returns nothing but the callback will be called for every player  
 Example:
 ```Lua
   local can = API.loopThroughAuthed(
@@ -179,7 +187,7 @@ Example Output:
   }
 ```
 
-### Flags
+## Flags
 These flags are either already used by bs-perms plugins or will be soon.
 
 \* - Everyone  
@@ -199,7 +207,7 @@ M - No Clip
 N - Spawn Vehicles  
 Z - ALL FLAGS
 
-### Immunity (copy/pasted from sourcemod docs)
+## Immunity (copy/pasted from sourcemod docs)
 Immunity is a flexible system based on immunity levels. Every admin can have an arbitrary immunity value assigned to them. Whether an admin can target another admin depends on who has a higher immunity value.
 
 For example, say Admin #1 has an immunity level of "3" and Admin #2 has an immunity level of "10." Admin #2 can target Admin #1, but Admin #1 cannot target Admin #2. The numbers are completely arbitrary, and they can be any number equal to or higher than 0. Note that 0 always implies no immunity.
@@ -208,7 +216,7 @@ Admins with the same immunity value can target each other.
 
 Admins with the z flag are not subject to immunity checks. This means they can always target anyone.
 
-### Related Gits
+## Related Gits
 [bs-admin](https://github.com/busheezy/bs-admin)   
 [bs-perms-json](https://github.com/busheezy/bs-perms-json)  
 [bs-perms-api](https://github.com/busheezy/bs-perms-api)  
