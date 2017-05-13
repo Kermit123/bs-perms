@@ -194,22 +194,24 @@ Example Output:
 ## Flags
 These flags are either already used by bs-perms plugins or will be soon.
 
-\* - Everyone  
-A - Reserved Slot  
-B - Generic Admin  
-C - Kick  
-D - Ban  
-E - Unban  
-F - Slay  
-G - Change Map  
-H - Change Gametype  
-I - Chat Perms  
-J - Start Votes  
-K - Set a password  
-L - RCON  
-M - No Clip  
-N - Spawn Vehicles  
-Z - ALL FLAGS
+Flag | Usage
+------------- | -------------
+\* | Everyone  
+A | Reserved Slot  
+B | Generic Admin  
+C | Kick  
+D | Ban  
+E | Unban  
+F | Slay  
+G | Change Map  
+H | Change Gametype  
+I | Chat Perms  
+J | Start Votes  
+K | Set a password  
+L | RCON  
+M | No Clip  
+N | Spawn Vehicles  
+Z | ALL FLAGS
 
 ## Immunity (copy/pasted from sourcemod docs)
 Immunity is a flexible system based on immunity levels. Every admin can have an arbitrary immunity value assigned to them. Whether an admin can target another admin depends on who has a higher immunity value.
