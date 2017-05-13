@@ -225,3 +225,19 @@ addCommand({
     end
   end
 })
+
+addCommand({
+  command = 'login',
+  flag = '*',
+  callback = function(who, args, auth)
+    local username = args[2]
+    local password = args[3]
+
+    for _, admin in pairs(adminCache) do
+      if admin.authType == 'password' and admin.authString == username and VerifyPasswordHash(password, admin.password) then
+        authedAdmins[who] = getFlatAdmin(admin, who)
+        break
+      end
+    end
+  end
+})
