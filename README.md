@@ -20,33 +20,33 @@ and/or
 ### addCommand(command table)
 adds commands to chat processor
 ```Lua
-  local API
-  TriggerEvent('bs-perms:getAPI',
-    function(api)
-      API = api
-    end
-  )
-  local addCommand = API.addCommand
+local API
+TriggerEvent('bs-perms:getAPI',
+  function(api)
+    API = api
+  end
+)
+local addCommand = API.addCommand
 ```
 ```Lua
-  API.addCommand({
-    command = 'example',
-    flag = 'b',
-    target = true,
-    callback = function(who, args, auth, targetAuth)
-      -- targetAuth is an auth table
-      -- targetAuth.pid = player's id
-    end
-  })
+API.addCommand({
+  command = 'example',
+  flag = 'b',
+  target = true,
+  callback = function(who, args, auth, targetAuth)
+    -- targetAuth is an auth table
+    -- targetAuth.pid = player's id
+  end
+})
 ```
 ```Lua
-  API.addCommand({
-    command = 'example',
-    flag = 'b',
-    callback = function(who, args, auth)
-      ...
-    end
-  })
+API.addCommand({
+  command = 'example',
+  flag = 'b',
+  callback = function(who, args, auth)
+    ...
+  end
+})
 ```
 ```Lua
 API.addCommand({
@@ -69,8 +69,8 @@ API.addCommand({
 returns a list of the cached admins  
 Example:  
 ```Lua
-  local admins = API.getAdmins()
-  print('There are '..#admins..' entries in the admin cache.')
+local admins = API.getAdmins()
+print('There are '..#admins..' entries in the admin cache.')
 ```
 Example Output:  
 ``There are 10 entries in the admin cache.``
@@ -80,8 +80,8 @@ Example Output:
 returns a list of the cached groups  
 Example:  
 ```Lua
-  local groups = API.getGroups()
-  print('There are '..#groups..' entries in the group cache.')
+local groups = API.getGroups()
+print('There are '..#groups..' entries in the group cache.')
 ```
 Example Output:  
 ``There are 10 entries in the groups cache.``
@@ -91,8 +91,8 @@ Example Output:
 returns a list of the cached overrides  
 Example:  
 ```Lua
-  local overrides = API.getOverrides()
-  print('There are '..#overrides..' entries in the overrides cache.')
+local overrides = API.getOverrides()
+print('There are '..#overrides..' entries in the overrides cache.')
 ```
 Example Output:  
 ``There are 10 entries in the overrides cache.``
@@ -102,8 +102,8 @@ Example Output:
 returns a 64 bit steam id  
 Example:
 ```Lua
-  local steam = API.getSteamFromId(1)
-  print(steam)
+local steam = API.getSteamFromId(1)
+print(steam)
 ```
 Example Output:  
 ``76561197972581267``
@@ -113,8 +113,8 @@ Example Output:
 returns a boolean  
 Example:
 ```Lua
-  local has = API.hasFlag('abc', 'b')
-  print(has)
+local has = API.hasFlag('abc', 'b')
+print(has)
 ```
 Example Output:  
 ``true``
@@ -122,8 +122,8 @@ Example Output:
 
 Example:
 ```Lua
-  local has = API.hasFlag('abc', 'z')
-  print(has)
+local has = API.hasFlag('abc', 'z')
+print(has)
 ```
 Example Output:  
 ``false``
@@ -133,9 +133,9 @@ Example Output:
 returns a player auth table  
 Example:
 ```Lua
-  local auth = API.getAuthedAdmin(1)
-  -- auth is a user table
-  print(auth.pid)
+local auth = API.getAuthedAdmin(1)
+-- auth is a user table
+print(auth.pid)
 ```
 Example Output:  
 ``1``
@@ -145,8 +145,8 @@ Example Output:
 returns a boolean  
 Example:
 ```Lua
-  local has = API.playerHasFlag(1, 'b')
-  print(has)
+local has = API.playerHasFlag(1, 'b')
+print(has)
 ```
 Example Output:  
 ``true``
@@ -156,8 +156,8 @@ Example Output:
 returns a boolean  
 Example:
 ```Lua
-  local can = API.playerCanTargetPlayer(1, 2)
-  print(can)
+local can = API.playerCanTargetPlayer(1, 2)
+print(can)
 ```
 Example Output:  
 ``true``
@@ -167,11 +167,11 @@ Example Output:
 returns nothing but the callback will be called for every player  
 Example:
 ```Lua
-  local can = API.loopThroughAuthed(
-    function(auth){
-      print(auth.pid)
-    }
-  )
+local can = API.loopThroughAuthed(
+  function(auth){
+    print(auth.pid)
+  }
+)
 ```
 Example Output:  
 ``1``  
@@ -180,13 +180,13 @@ Example Output:
 
 ### User's Auth table
 ```Lua
-  {
-    pid = 1,
-    alias = 'Bush',
-    flags = 'abc',
-    immunity = 10,
-    Group = 'general'
-  }
+{
+  pid = 1,
+  alias = 'Bush',
+  flags = 'abc',
+  immunity = 10,
+  Group = 'general'
+}
 ```
 
 ## Flags
