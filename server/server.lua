@@ -256,10 +256,22 @@ end
 
 addCommand({
   command = 'perms',
-  flag = 'b',
+  flag = 'z',
   callback = function(who, args, auth)
     if args[2] == 'reload' then
       refreshAdmins()
+    end
+  end
+})
+
+addCommand({
+  command = 'flags',
+  flag = '*',
+  callback = function(who, args, auth)
+    if auth then
+      TriggerClientEvent('chatMessage', - 1, 'BS-PERMS', {255, 0, 0}, auth.flags)
+    else
+      TriggerClientEvent('chatMessage', - 1, 'BS-PERMS', {255, 0, 0}, 'no flags')
     end
   end
 })
@@ -272,7 +284,7 @@ addCommand({
     local password = args[3]
 
     for _, admin in pairs(adminCache) do
-      if admin.authType == 'password' and admin.authString == username and VerifyPasswordHash(password, admin.password) then
+      if admin.authType == 'login' and admin.authString == username and VerifyPasswordHash(password, admin.password) then
         authedAdmins[who] = getFlatAdmin(admin, who)
         break
       end
