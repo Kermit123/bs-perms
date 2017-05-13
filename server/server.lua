@@ -216,6 +216,44 @@ function addCommand(command)
   commands[command.command] = command
 end
 
+function checkIfAllowed(id, cmd)
+  local overridden = false
+
+  local authed = getAuthedAdmin(id)
+
+  if authed and hasFlag(authed.flags, 'z') then
+    return true
+  end
+
+  local overridden = checkIfOverriden(authed, cmd)
+  if overridden ~= nil then
+    return overridden
+  end
+
+  if cmd.flag == nil or cmd.flag == '*' then
+    return true
+  end
+
+  return authed and hasFlag(authed.flags, cmd.flag)
+end
+
+function checkIfOverriden(authed, cmd)
+  for _, override in pairs(getOverrides()) do
+    if override.flag == nil or override.flag == '*' then
+      return true
+    end
+
+    if override.type == 'full' and override.commandString == cmd.command then
+      return authed and hasFlag(authed.flags, override.flag)
+    end
+
+    if override.type == 'prefix' and startswith(cmd.command, override.commandString) then
+      return authed and hasFlag(authed.flags, override.flag)
+    end
+  end
+  return nil
+end
+
 addCommand({
   command = 'perms',
   flag = 'b',
