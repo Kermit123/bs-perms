@@ -65,6 +65,7 @@ API.addCommand({
 })
 ```
 
+
 ### getAdmins()
 returns a list of the cached admins  
 Example:  
@@ -177,6 +178,7 @@ Example Output:
 ``1``  
 ``2``  
 ``3``
+
 
 ### User's Auth table
 ```Lua
