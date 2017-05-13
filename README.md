@@ -19,7 +19,7 @@ and/or
 
 ### API  
 
-** addCommand(command table)** - adds commands to chat processor
+**addCommand(command table)** - adds commands to chat processor
 ```Lua
   local API
   TriggerEvent('bs-perms:getAPI',
