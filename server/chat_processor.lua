@@ -1,7 +1,7 @@
 AddEventHandler('chatMessage',
   function(source, n, message)
     if startsWith(message, '/') or startsWith(message, '!') then
-      local args = splitBySpace(message)
+      local args = getArgsFromString(message)
       local command = args[1]:lower()
 
       if startsWith(message, '/') then

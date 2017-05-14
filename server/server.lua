@@ -83,7 +83,8 @@ function getAPI()
     playerHasFlag = playerHasFlag,
     playerCanTargetPlayer = playerCanTargetPlayer,
     loopThroughAuthed = loopThroughAuthed,
-    addCommand = addCommand
+    addCommand = addCommand,
+    getArgsFromString = getArgsFromString
   }
 end
 
