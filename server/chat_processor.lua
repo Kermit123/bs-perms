@@ -39,18 +39,31 @@ AddEventHandler('chatMessage',
 )
 
 function preCheck(who, auth, args, cmd, next)
-  local allowed = checkIfAllowed(who, cmd)
+  local allowed = checkIfAllowed(who, cmd.flag, cmd.command)
 
   if not allowed then
     TriggerClientEvent('chatMessage', who, 'BS-PERMS', {255, 0, 0}, 'Not allowed.')
     return
   end
 
+  if cmd.argFlags then
+    for arg, flag in pairs(cmd.argFlags) do
+      if args[2] == arg then
+        local argAllowed = checkIfAllowed(who, flag)
+        if not argAllowed then
+          TriggerClientEvent('chatMessage', who, 'BS-PERMS', {255, 0, 0}, 'Not allowed.')
+          return
+        end
+        break
+      end
+    end
+  end
+
   next()
 end
 
 function preTargetCheck(who, auth, args, cmd, next)
-  local allowed = checkIfAllowed(who, cmd)
+  local allowed = checkIfAllowed(who, cmd.flag, cmd.command)
 
   if not allowed then
     TriggerClientEvent('chatMessage', who, 'BS-PERMS', {255, 0, 0}, 'Not allowed.')

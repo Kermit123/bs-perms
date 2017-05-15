@@ -84,7 +84,9 @@ function getAPI()
     playerCanTargetPlayer = playerCanTargetPlayer,
     loopThroughAuthed = loopThroughAuthed,
     addCommand = addCommand,
-    getArgsFromString = getArgsFromString
+    getArgsFromString = getArgsFromString,
+    checkIfAllowed = checkIfAllowed,
+    checkIfOverriden = checkIfOverriden
   }
 end
 
@@ -184,7 +186,7 @@ function playerHasFlag(id, flag)
   if not authed then
     return false
   end
-  if hasFlag(authed.flags, flag) then
+  if hasFlag(authed.flags, flag) or hasFlag(authed.flags, 'z') then
     return true
   end
   return false
@@ -217,7 +219,7 @@ function addCommand(command)
   commands[command.command] = command
 end
 
-function checkIfAllowed(id, cmd)
+function checkIfAllowed(id, flag, command)
   local overridden = false
 
   local authed = getAuthedAdmin(id)
@@ -226,29 +228,31 @@ function checkIfAllowed(id, cmd)
     return true
   end
 
-  local overridden = checkIfOverriden(authed, cmd)
-  if overridden ~= nil then
-    return overridden
+  if command then
+    local overridden = checkIfOverriden(authed, command)
+    if overridden ~= nil then
+      return overridden
+    end
   end
 
-  if cmd.flag == nil or cmd.flag == '*' then
+  if flag == nil or flag == '*' then
     return true
   end
 
-  return authed and hasFlag(authed.flags, cmd.flag)
+  return authed and hasFlag(authed.flags, flag)
 end
 
-function checkIfOverriden(authed, cmd)
+function checkIfOverriden(authed, command)
   for _, override in pairs(getOverrides()) do
     if override.flag == nil or override.flag == '*' then
       return true
     end
 
-    if override.type == 'full' and override.commandString == cmd.command then
+    if override.type == 'full' and override.commandString == command then
       return authed and hasFlag(authed.flags, override.flag)
     end
 
-    if override.type == 'prefix' and startswith(cmd.command, override.commandString) then
+    if override.type == 'prefix' and startswith(command, override.commandString) then
       return authed and hasFlag(authed.flags, override.flag)
     end
   end
