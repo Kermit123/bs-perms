@@ -68,7 +68,19 @@ API.addCommand({
 })
 ```
 Here is an example of providing our own checks.  This overrides our target or default checks and allows you to do any checks you want.  The call back is only ran if you call ``next()``  Feel free to pass data, including a table, through ``next({})``.  Anything called in next will be given to you as the fourth paremeter in the callback.  
-
+  ```Lua
+  API.addCommand({
+    command = 'example',
+    flag = 'b',
+    argFlags = {
+      test = 'c'
+    },
+    callback = function(who, args, auth)
+      ...
+    end
+  })
+  ```
+  This is a normal command that requires a flag.  This has argFlags which is a convenience for having permission checks on your commands args.  For example, you can have '``/test bird'`` and ``/test rabbit``.  bird and rabbit can both of their own flags individual from the main flag.
 
 ### getAdmins()
 returns a list of the cached admins  
