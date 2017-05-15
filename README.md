@@ -28,6 +28,7 @@ TriggerEvent('bs-perms:getAPI',
 )
 local addCommand = API.addCommand
 ```
+This gives us access to the permissions API for the rest of the file.  Thanks to tellurium for showing me this.  It makes the syntax way cleaner.
 ```Lua
 API.addCommand({
   command = 'example',
@@ -39,6 +40,7 @@ API.addCommand({
   end
 })
 ```
+By passing target true we tell the chat processor to use a target convenience check.  The chat processor will look at the second arg and assume it is a target id.  If you want to use an arg other than the second arg then send the number arg you want. ``target = 3``  The code in the call back is only ran if the immunity checks pass.
 ```Lua
 API.addCommand({
   command = 'example',
@@ -48,6 +50,7 @@ API.addCommand({
   end
 })
 ```
+This is a normal command that requires a flag.  The code in the callback is only ran if it passes our default check.
 ```Lua
 API.addCommand({
   command = 'test',
@@ -64,6 +67,7 @@ API.addCommand({
   end
 })
 ```
+Here is an example of providing our own checks.  This overrides our target or default checks and allows you to do any checks you want.  The call back is only ran if you call ``next()``  Feel free to pass data, including a table, through ``next({})``.  Anything called in next will be given to you as the fourth paremeter in the callback.  
 
 
 ### getAdmins()
