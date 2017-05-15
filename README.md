@@ -1,4 +1,4 @@
-# bs-perms alpha 0.0.1
+# bs-perms beta 0.1.0
 
 ## About  
 This is a resource that manages whether people are able to run certain commands via a flag system.  The flag system is inspired by sourcemod.  This requires bs-perms-json or bs-perms-api to have admin, group, and override data fed into it.  It is optional of what you want to use.  Both bs-perms-json and bs-perms-api will work together.  A flag can be any single character.  
