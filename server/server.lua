@@ -265,38 +265,32 @@ addCommand({
   callback = function(who, args, auth)
     if args[2] == nil then
       if auth then
-        TriggerClientEvent('chatMessage', - 1, 'BS-PERMS', {255, 0, 0}, 'Flags: '..auth.flags)
+        TriggerClientEvent('chatMessage', who, 'BS-PERMS', {255, 0, 0}, 'Flags: '..auth.flags)
         return
       end
-      TriggerClientEvent('chatMessage', - 1, 'BS-PERMS', {255, 0, 0}, 'no flags')
+      TriggerClientEvent('chatMessage', who, 'BS-PERMS', {255, 0, 0}, 'no flags')
     else
       if args[2] == 'reload' and auth and hasFlag(auth.flags, 'z') then
         refreshAdmins()
+      elseif args[2] == 'login' then
+        authedAdmins[who] = nil
+
+        local username = args[3]
+        local password = args[4]
+
+        for _, admin in pairs(adminCache) do
+          if admin.authType == 'login' and admin.authString == username and VerifyPasswordHash(password, admin.password) then
+            authedAdmins[who] = getFlatAdmin(admin, who)
+            break
+          end
+        end
+
+        if authedAdmins[who] then
+          TriggerClientEvent('chatMessage', who, 'BS-PERMS', {255, 0, 0}, 'Logged in.')
+        else
+          TriggerClientEvent('chatMessage', who, 'BS-PERMS', {255, 0, 0}, 'Login failed.')
+        end
       end
-    end
-  end
-})
-
-addCommand({
-  command = 'login',
-  flag = '*',
-  callback = function(who, args, auth)
-    authedAdmins[who] = nil
-
-    local username = args[2]
-    local password = args[3]
-
-    for _, admin in pairs(adminCache) do
-      if admin.authType == 'login' and admin.authString == username and VerifyPasswordHash(password, admin.password) then
-        authedAdmins[who] = getFlatAdmin(admin, who)
-        break
-      end
-    end
-
-    if authedAdmins[who] then
-      TriggerClientEvent('chatMessage', - 1, 'BS-PERMS', {255, 0, 0}, 'Logged in.')
-    else
-      TriggerClientEvent('chatMessage', - 1, 'BS-PERMS', {255, 0, 0}, 'Login failed.')
     end
   end
 })
