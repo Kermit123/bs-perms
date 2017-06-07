@@ -3,7 +3,7 @@ resource 'bs-perms'
 author 'BuSheeZy <https://github.com/busheezy>'
 maintainer 'BuSheeZy <https://github.com/busheezy>'
 
-version '1.0.1'
+version '1.0.2'
 
 resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 
